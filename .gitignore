@@ -1,0 +1,40 @@
+# Environment and secrets — never committed
+.env
+.env.*
+!.env.example
+.secrets.baseline
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Temp agent working directories
+/tmp/autoforge-work/
+
+# pass store is never here, but just in case
+*.gpg
