@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.0",
+  "locked_fields": [
+    "code_standards",
+    "git_rules",
+    "security_baseline",
+    "deployment_rules"
+  ],
+  "identity": {
+    "employer_name": "Zuar",
+    "department": "Engineering",
+    "standards_version": "1.0",
+    "standards_owner_email": "engineering@zuar.com",
+    "last_updated": "2026-04-06"
+  },
+  "code_standards": {
+    "python_style": "pep8",
+    "js_style": "airbnb",
+    "max_line_length": 100,
+    "max_function_complexity": 10,
+    "min_test_coverage": 80,
+    "required_type_hints": true,
+    "required_docstrings": true,
+    "required_repo_files": [
+      "README.md",
+      "CHANGELOG.md",
+      ".env.example",
+      "Dockerfile"
+    ],
+    "forbidden_patterns": [
+      "bare except clauses",
+      "mutable default arguments",
+      "wildcard imports (import *)",
+      "hardcoded magic numbers without named constants",
+      "commented-out code blocks",
+      "unused variables",
+      "print() for debug output (use logger)"
+    ],
+    "naming_conventions": {
+      "python_variables": "snake_case",
+      "python_functions": "snake_case",
+      "python_classes": "PascalCase",
+      "python_modules": "snake_case",
+      "js_variables": "camelCase",
+      "js_functions": "camelCase",
+      "js_classes": "PascalCase",
+      "repo_names": "kebab-case",
+      "branch_names": "kebab-case with prefix"
+    }
+  },
+  "git_rules": {
+    "branching_strategy": "github_flow",
+    "branch_prefixes": {
+      "feature": "feature/",
+      "fix": "fix/",
+      "chore": "chore/",
+      "hotfix": "hotfix/"
+    },
+    "branch_naming_pattern": "{prefix}{issue-number}-{short-description}",
+    "commit_format": "conventional_commits",
+    "conventional_commit_types": [
+      "feat",
+      "fix",
+      "chore",
+      "docs",
+      "test",
+      "refactor",
+      "perf",
+      "ci",
+      "build"
+    ],
+    "pr_min_reviewers": 1,
+    "protected_branches": ["main"],
+    "squash_merges": true,
+    "require_signed_commits": false,
+    "require_pr_for_protected": true,
+    "delete_branch_on_merge": true
+  },
+  "security_baseline": {
+    "no_hardcoded_secrets": true,
+    "secrets_manager": "pass",
+    "compliance_frameworks": [],
+    "no_pii_in_logs": true,
+    "owasp_checks_required": true,
+    "approved_auth_patterns": [
+      "api_key_via_env",
+      "oauth2",
+      "jwt"
+    ],
+    "pre_commit_secret_scan": true,
+    "secret_scan_tool": "detect-secrets",
+    "pii_field_names": [
+      "email",
+      "phone",
+      "ssn",
+      "password",
+      "token",
+      "credit_card",
+      "dob",
+      "address"
+    ]
+  },
+  "deployment_rules": {
+    "deployment_windows": [
+      "weekdays 09:00-17:00 CT",
+      "off-hours automated with human gate"
+    ],
+    "environments": ["dev", "staging", "prod"],
+    "requires_cab_approval": false,
+    "rollback_procedure_required": true,
+    "auto_deploy_to_prod": false
+  },
+  "observability_defaults": {
+    "logging_platform": "structlog",
+    "log_format": "json",
+    "metrics_platform": "prometheus",
+    "tracing_enabled": true,
+    "tracing_platform": "opentelemetry",
+    "required_log_fields": [
+      "timestamp",
+      "level",
+      "service",
+      "agent_id",
+      "project_id",
+      "issue_id",
+      "run_id",
+      "trace_id",
+      "step",
+      "event"
+    ],
+    "error_tracking": "sentry"
+  },
+  "approved_technologies": {
+    "languages": ["python", "typescript", "javascript", "sql", "bash"],
+    "python_version": "3.11",
+    "cloud_platforms": ["aws", "gcp", "azure"],
+    "data_stores": ["postgresql", "redis", "sqlite"],
+    "ci_cd_tools": ["github_actions"],
+    "forbidden_technologies": [
+      "log4j:critical_cve_history",
+      "flask:prefer_fastapi_for_new_projects",
+      "requests_sync_in_async_context:use_httpx"
+    ]
+  }
+}
