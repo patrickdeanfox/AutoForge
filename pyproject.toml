@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "autoforge"
+version = "0.1.0"
+description = "Multi-agent software development system"
+requires-python = ">=3.11"
+dependencies = [
+    # API
+    "fastapi==0.115.5",
+    "uvicorn[standard]==0.32.1",
+    "httpx==0.28.1",
+
+    # Schema validation
+    "pydantic==2.10.3",
+    "pydantic-settings==2.6.1",
+
+    # Database
+    "sqlalchemy==2.0.36",
+    "asyncpg==0.30.0",
+    "alembic==1.14.0",
+    "psycopg2-binary==2.9.10",
+
+    # Task queue
+    "celery==5.4.0",
+    "redis==5.2.1",
+    "flower==2.0.1",
+
+    # AI / Agents
+    "anthropic==0.40.0",
+    "langchain==0.3.9",
+    "langchain-anthropic==0.3.2",
+    "langgraph==0.2.56",
+
+    # GitHub
+    "PyGithub==2.5.0",
+
+    # Telegram
+    "python-telegram-bot[webhooks]==21.9",
+
+    # Observability
+    "structlog==24.4.0",
+    "prometheus-client==0.21.1",
+    "opentelemetry-sdk==1.29.0",
+    "opentelemetry-exporter-jaeger==1.21.0",
+    "sentry-sdk[fastapi]==2.19.2",
+
+    # Security scanning
+    "bandit==1.8.0",
+    "detect-secrets==1.5.0",
+
+    # Testing
+    "pytest==8.3.4",
+    "pytest-asyncio==0.24.0",
+    "pytest-mock==3.14.0",
+    "coverage==7.6.9",
+    "pytest-cov==6.0.0",
+    "responses==0.25.3",
+
+    # Linting and type checking
+    "ruff==0.8.4",
+    "mypy==1.13.0",
+
+    # Utilities
+    "python-dotenv==1.0.1",
+    "click==8.1.8",
+    "rich==13.9.4",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "B", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=. --cov-report=term-missing --cov-fail-under=80"
+
+[tool.coverage.run]
+omit = ["tests/*", "*/migrations/*", "scripts/*"]

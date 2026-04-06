@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "project-files": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
+      ],
+      "type": "stdio"
+    }
+  },
+  "systemPromptPrefix": "You are working inside the AutoForge execution pipeline. The project manifest is at ./project_manifest.json. The employer profile is at /home/patrick/autoforge/config/employer_profile.json. Always read both files before taking any action. Never commit directly to main. Never override locked fields from the employer profile. If you encounter a technology choice with no locked Decision Record, stop work on that task, create a decision-needed GitHub Issue, and move on to the next approved issue."
+}
