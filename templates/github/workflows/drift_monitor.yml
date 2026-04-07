@@ -1,0 +1,26 @@
+name: Drift Monitor
+
+# Weekly re-crawl of all knowledge layer resources to detect API changes,
+# new endpoints, schema drift, and dependency updates. Runs Sunday at 2am UTC.
+
+on:
+  schedule:
+    - cron: "0 2 * * 0"
+  workflow_dispatch:  # allow manual trigger from GitHub UI
+
+jobs:
+  drift-check:
+    name: Knowledge Drift Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger drift scan on AutoForge API
+        run: |
+          curl -s -X POST "${{ secrets.AUTOFORGE_API_URL }}/api/github/webhook" \
+            -H "Content-Type: application/json" \
+            -H "X-AutoForge-Source: github-actions" \
+            -d '{
+              "event": "drift_scan_requested",
+              "project_id": "${{ github.event.repository.name }}",
+              "triggered_by": "schedule"
+            }'

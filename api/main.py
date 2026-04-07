@@ -1,8 +1,13 @@
+import os
+
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.logging_conf import setup_logging
+from api.middleware.auth import APIKeyMiddleware
+from api.routers import github as github_router
+from api.routers import projects as projects_router
 
 # Initialize structured logging
 setup_logging()
@@ -21,6 +26,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(
+    APIKeyMiddleware,
+    environment=os.environ.get("ENVIRONMENT", "development"),
+)
+
+app.include_router(projects_router.router)
+app.include_router(github_router.router)
 
 
 @app.on_event("startup")

@@ -1,0 +1,30 @@
+name: QA Trigger
+
+# Triggers the AutoForge QA pipeline when a pull request is opened or marked ready.
+# QA agents run code review, test generation, docs, and security scan in parallel.
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  trigger-qa:
+    name: Trigger QA Pipeline
+    runs-on: ubuntu-latest
+    # Skip draft PRs — only run QA when ready_for_review
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Notify AutoForge API
+        run: |
+          curl -s -X POST "${{ secrets.AUTOFORGE_API_URL }}/api/github/webhook" \
+            -H "Content-Type: application/json" \
+            -H "X-AutoForge-Source: github-actions" \
+            -d '{
+              "event": "pr_ready_for_qa",
+              "project_id": "${{ github.event.repository.name }}",
+              "pr_number": ${{ github.event.pull_request.number }},
+              "pr_title": "${{ github.event.pull_request.title }}",
+              "pr_url": "${{ github.event.pull_request.html_url }}",
+              "head_sha": "${{ github.event.pull_request.head.sha }}"
+            }'

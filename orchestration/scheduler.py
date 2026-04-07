@@ -1,6 +1,6 @@
 """
-Celery application and task definitions.
-Phase 0 skeleton — tasks will be added as each phase is built.
+Celery application and beat schedule.
+Phase 0 skeleton — beat schedule entries will be added as each phase is built.
 """
 
 import os
@@ -22,11 +22,5 @@ app.conf.update(
     result_serializer="json",
     timezone="UTC",
     enable_utc=True,
-    beat_schedule={
-        # Phase 0: morning summary at 7am daily
-        "morning-summary": {
-            "task": "orchestration.tasks.send_morning_summary",
-            "schedule": 25200.0,  # 7am UTC — adjust for your timezone
-        },
-    },
+    beat_schedule={},
 )

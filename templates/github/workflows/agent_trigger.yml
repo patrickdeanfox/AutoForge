@@ -1,0 +1,28 @@
+name: Agent Trigger
+
+# Triggers the AutoForge execution pipeline when an issue receives the 'approved' label.
+# The AutoForge API handles agent orchestration — this workflow is the entry point only.
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  trigger-execution:
+    name: Trigger Execution Pipeline
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'approved'
+
+    steps:
+      - name: Notify AutoForge API
+        run: |
+          curl -s -X POST "${{ secrets.AUTOFORGE_API_URL }}/api/github/webhook" \
+            -H "Content-Type: application/json" \
+            -H "X-AutoForge-Source: github-actions" \
+            -d '{
+              "event": "issue_approved",
+              "project_id": "${{ github.event.repository.name }}",
+              "issue_number": ${{ github.event.issue.number }},
+              "issue_title": "${{ github.event.issue.title }}",
+              "issue_url": "${{ github.event.issue.html_url }}"
+            }'

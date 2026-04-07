@@ -1,10 +1,12 @@
-import asyncio
+"""
+Celery task definitions.
+Phase 0 skeleton — tasks will be added as each phase is built.
+"""
 
 from orchestration.scheduler import app
 
 
-@app.task(name="orchestration.tasks.send_morning_summary")
-def send_morning_summary() -> None:
-    from telegram.notifications.morning_summary import send_morning_summary as _send
-
-    asyncio.run(_send())
+@app.task(name="orchestration.tasks.health_check")
+def health_check() -> dict:
+    """Periodic health check task — verifies workers are alive."""
+    return {"status": "ok"}
