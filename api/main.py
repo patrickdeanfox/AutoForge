@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.logging_conf import setup_logging
 from api.middleware.auth import APIKeyMiddleware
 from api.routers import github as github_router
+from api.routers import manifests as manifests_router
 from api.routers import projects as projects_router
 
 # Initialize structured logging
@@ -32,6 +33,7 @@ app.add_middleware(
 )
 
 app.include_router(projects_router.router)
+app.include_router(manifests_router.router)
 app.include_router(github_router.router)
 
 
